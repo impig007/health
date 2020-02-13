@@ -139,6 +139,7 @@ public class ReportController {
             //设置响应头信息，通知浏览器以附件的方式处理而不是展示
             response.setHeader("content-Disposition", "attachment;filename=report.xlsx");
             poiUtils.excelWrite2Broser(outputStream);
+            System.out.println("this is a git forword test");
             return null;
         } catch (Exception e) {
             e.printStackTrace();
