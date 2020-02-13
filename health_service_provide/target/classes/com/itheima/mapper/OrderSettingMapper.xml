@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.OrderSettingMapper">
+
+    <select id="findCountByOrderDate" parameterType="Date" resultType="long">
+        select count(id) from t_ordersetting where orderDate=#{orderDate}
+    </select>
+
+    <update id="updataByOrderDate" parameterType="OrderSetting">
+            update t_ordersetting
+            <set>
+                <if test="number != null">
+                    number = #{number},
+                </if>
+                <if test="reservations != null">
+                    reservations = #{reservations}
+                </if>
+            </set>
+            where orderDate = #{orderDate}
+    </update>
+
+
+    <insert id="save" parameterType="OrderSetting" >
+        insert into t_ordersetting(orderDate,number,reservations)
+        values (#{orderDate},#{number},#{reservations})
+    </insert>
+    <!--日期只要格式正确也可以用字符串来查-->
+    <select id="findByYearAndMonth" parameterType="map" resultType="OrderSetting">
+        select * from t_ordersetting where orderDate BETWEEN #{begin} and #{end}
+    </select>
+
+    <!--根据日期查询预约设置信息-->
+    <select id="findByOrderDate" parameterType="date" resultType="OrderSetting">
+        select * from t_ordersetting where orderDate = #{orderDate}
+    </select>
+
+</mapper>

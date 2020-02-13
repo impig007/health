@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.CheckItemMappers">
+
+    <select id="findByPage" parameterType="String" resultType="checkItem">
+        select * from t_checkitem
+        <where>
+            <if test="value !=null and value.length >0 ">
+            code=#{value} or name like "%${value}%"
+            </if>
+        </where>
+    </select>
+    <insert id="add" parameterType="checkItem" >
+       insert into t_checkitem(code,name,sex,age,price,type,remark,attention)
+                      values
+        (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+    </insert>
+    <select id="findById" parameterType="int" resultType="checkItem">
+        select * from  t_checkitem where id = #{id}
+    </select>
+    <update id="updateById" parameterType="CheckItem">
+        update t_checkitem
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="delById" parameterType="int">
+        delete  from  t_checkitem where id=#{id}
+    </delete>
+    <select id="countById" parameterType="int" resultType="long">
+        select count(*) from t_checkgroup_checkitem where checkitem_id=#{id}
+    </select>
+
+    <select id="findAll" resultType="checkItem">
+        select * from t_checkitem
+    </select>
+
+    <select id="findByGid" parameterType="int" resultType="checkItem">
+        select * from t_checkitem where id in (SELECT checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id})
+    </select>
+
+</mapper>
