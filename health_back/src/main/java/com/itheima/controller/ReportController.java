@@ -203,7 +203,6 @@ public class ReportController {
                 row.getCell(5).setCellValue(setmeal_count);//预约数量
                 row.getCell(6).setCellValue(proportion.doubleValue());//占比
             }
-
             //使用输出流进行表格下载,基于浏览器作为客户端下载
             OutputStream out = response.getOutputStream();
             response.setContentType("application/vnd.ms-excel");//代表的是Excel文件类型
@@ -213,6 +212,7 @@ public class ReportController {
             out.flush();
             out.close();
             excel.close();
+
             return null;
         }catch (Exception e){
             return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
