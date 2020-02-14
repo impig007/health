@@ -76,9 +76,6 @@ public class CheckItemController {
     }
     @RequestMapping("/findAll")
     public Result findAll()  {
-
         return checkItemService.findAll();
-
     }
-
 }

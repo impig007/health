@@ -7757,7 +7757,7 @@ function prepareTruncateOptions(containerWidth, font, ellipsis, options) {
 
 function truncateSingleLine(textLine, options) {
     var containerWidth = options.containerWidth;
-    var font = options.font;
+    var font = options.fonts;
     var contentWidth = options.contentWidth;
 
     if (!containerWidth) {
@@ -7963,7 +7963,7 @@ function parseRichText(text, style) {
             var textPadding = token.textPadding = tokenStyle.textPadding;
 
             // textFont has been asigned to font by `normalizeStyle`.
-            var font = token.font = tokenStyle.font || style.font;
+            var font = token.font = tokenStyle.fonts || style.fonts;
 
             // textHeight can be used when textVerticalAlign is specified in token.
             var tokenHeight = token.textHeight = retrieve2(
@@ -8122,7 +8122,7 @@ function makeFont(style) {
         // If font properties are defined, `fontFamily` should not be ignored.
         style.fontFamily || 'sans-serif'
     ].join(' ');
-    return font && trim(font) || style.textFont || style.font;
+    return font && trim(font) || style.textFont || style.fonts;
 }
 
 /**
@@ -8306,7 +8306,7 @@ function renderPlainText(hostEl, ctx, text, style, rect, prevEl) {
         ctx.__attrCachedBy = ContextCachedBy.NONE;
     }
 
-    var styleFont = style.font || DEFAULT_FONT;
+    var styleFont = style.fonts || DEFAULT_FONT;
     // PENDING
     // Only `Text` el set `font` and keep it (`RectText` will restore). So theoretically
     // we can make font cache on ctx, which can cache for text el that are discontinuous.
@@ -8317,7 +8317,7 @@ function renderPlainText(hostEl, ctx, text, style, rect, prevEl) {
     //         ctx.__fontCache = styleFont;
     //     }
     // }
-    if (!checkCache || styleFont !== (prevStyle.font || DEFAULT_FONT)) {
+    if (!checkCache || styleFont !== (prevStyle.fonts || DEFAULT_FONT)) {
         ctx.font = styleFont;
     }
 
@@ -8591,7 +8591,7 @@ function placeToken(hostEl, ctx, token, style, lineHeight, lineTop, x, textAlign
     // text will offset downward a little bit in font "Microsoft YaHei".
     setCtx(ctx, 'textBaseline', 'middle');
 
-    setCtx(ctx, 'font', token.font || DEFAULT_FONT);
+    setCtx(ctx, 'fonts.xml', token.fonts || DEFAULT_FONT);
 
     var textStroke = getStroke(tokenStyle.textStroke || style.textStroke, textStrokeWidth);
     var textFill = getFill(tokenStyle.textFill || style.textFill);
@@ -15299,7 +15299,7 @@ Text.prototype = {
 
             var rect = getBoundingRect(
                 style.text + '',
-                style.font,
+                style.fonts,
                 style.textAlign,
                 style.textVerticalAlign,
                 style.textPadding,
@@ -91550,7 +91550,7 @@ if (!env$1.canvasSupported) {
         var align = style.textAlign;
         var verticalAlign = style.textVerticalAlign;
 
-        var fontStyle = getFontStyle(style.font);
+        var fontStyle = getFontStyle(style.fonts);
         // FIXME encodeHtmlAttribute ?
         var font = fontStyle.style + ' ' + fontStyle.variant + ' ' + fontStyle.weight + ' '
             + fontStyle.size + 'px "' + fontStyle.family + '"';
@@ -92317,7 +92317,7 @@ var svgTextDrawRectText = function (el, rect, textRect) {
     if (typeof style.fontSize === 'number') {
         style.fontSize += 'px';
     }
-    var font = style.font
+    var font = style.fonts
         || [
             style.fontStyle || '',
             style.fontWeight || '',

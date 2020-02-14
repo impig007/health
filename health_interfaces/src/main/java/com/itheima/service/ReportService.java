@@ -1,7 +1,9 @@
 package com.itheima.service;
 
+import com.itheima.pojo.Report;
+
 import java.util.Map;
 
 public interface ReportService {
-    Map<String, Object> getBusinnessReport()throws Exception;
+    Report getBusinnessReport()throws Exception;
 }

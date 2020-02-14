@@ -1,14 +1,23 @@
 package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.itheima.constant.MessageConstant;
 import com.itheima.entity.Result;
 
+import com.itheima.pojo.HotSetMeal;
+import com.itheima.pojo.Report;
 import com.itheima.service.MemberService;
 
 import com.itheima.service.ReportService;
 import com.itheima.service.SetMealService;
 import com.itheima.utils.POIUtils;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -85,8 +94,8 @@ public class ReportController {
     @RequestMapping("/getBusinessReportData")
     public Result getBusinessReportData(){
         try {
-            Map<String,Object> resultMap = reportService.getBusinnessReport();
-            return new Result(true,MessageConstant.GET_BUSINESS_REPORT_SUCCESS,resultMap);
+            Report report = reportService.getBusinnessReport();
+            return new Result(true,MessageConstant.GET_BUSINESS_REPORT_SUCCESS,report);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
@@ -96,19 +105,6 @@ public class ReportController {
     @RequestMapping("/exportBusinessReport")
     public Result exportBusinessReport(HttpServletRequest request, HttpServletResponse response){
 //        try {
-//            Map<String,Object> dateMap = reportService.getBusinnessReport();
-//            String reportDate = (String)dateMap.get("reportDate");
-//            Integer todayNewMember = (Integer) dateMap.get("todayNewMember");
-//            Integer totalMember = (Integer) dateMap.get("totalMember");
-//            Integer thisWeekNewMember = (Integer) dateMap.get("thisWeekNewMember");
-//            Integer thisMonthNewMember = (Integer) dateMap.get("thisMonthNewMember");
-//            Integer todayOrderNumber = (Integer) dateMap.get("todayOrderNumber");
-//            Integer todayVisitsNumber = (Integer) dateMap.get("todayVisitsNumber");
-//            Integer thisWeekOrderNumber = (Integer) dateMap.get("thisWeekOrderNumber");
-//            Integer thisWeekVisitsNumber = (Integer) dateMap.get("thisWeekVisitsNumber");
-//            Integer thisMonthOrderNumber = (Integer) dateMap.get("thisMonthOrderNumber");
-//            Integer thisMonthVisitsNumber = (Integer) dateMap.get("thisMonthVisitsNumber");
-//            List<Map> hotSetmeal = (List<Map>) dateMap.get("hotSetmeal");
 //            //根据服务器地址获取文件excel真实地址(File.separator可以根据系统不同给出不同的分隔符)
 //            String realPath = request.getSession().getServletContext().getRealPath("template" + File.separator + "report_template.xlsx");
 //            //调用工具类向工作簿中写入数据
@@ -149,20 +145,20 @@ public class ReportController {
 //            return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
 //        }
         try{
-            Map<String,Object> result = reportService.getBusinnessReport();
+            Report result = reportService.getBusinnessReport();
             //取出返回结果数据，准备将报表数据写入到Excel文件中
-            String reportDate = (String) result.get("reportDate");
-            Integer todayNewMember = (Integer) result.get("todayNewMember");
-            Integer totalMember = (Integer) result.get("totalMember");
-            Integer thisWeekNewMember = (Integer) result.get("thisWeekNewMember");
-            Integer thisMonthNewMember = (Integer) result.get("thisMonthNewMember");
-            Integer todayOrderNumber = (Integer) result.get("todayOrderNumber");
-            Integer thisWeekOrderNumber = (Integer) result.get("thisWeekOrderNumber");
-            Integer thisMonthOrderNumber = (Integer) result.get("thisMonthOrderNumber");
-            Integer todayVisitsNumber = (Integer) result.get("todayVisitsNumber");
-            Integer thisWeekVisitsNumber = (Integer) result.get("thisWeekVisitsNumber");
-            Integer thisMonthVisitsNumber = (Integer) result.get("thisMonthVisitsNumber");
-            List<Map> hotSetmeal = (List<Map>) result.get("hotSetmeal");
+            String reportDate = result.getReportDate();
+            Integer todayNewMember = result.getTodayNewMember();
+            Integer totalMember = result.getTotalMember();
+            Integer thisWeekNewMember = result.getThisWeekNewMember();
+            Integer thisMonthNewMember = result.getThisMonthNewMember();
+            Integer todayOrderNumber = result.getTodayOrderNumber();
+            Integer thisWeekOrderNumber = result.getThisWeekOrderNumber();
+            Integer thisMonthOrderNumber = result.getThisMonthOrderNumber();
+            Integer todayVisitsNumber = result.getTodayVisitsNumber();
+            Integer thisWeekVisitsNumber = result.getThisWeekVisitsNumber();
+            Integer thisMonthVisitsNumber = result.getThisMonthVisitsNumber();
+            List<HotSetMeal> hotSetmeal = result.getHotSetmeal();
 
             String filePath = request.getSession().getServletContext().getRealPath("template")+ File.separator+"report_template.xlsx";
             //基于提供的Excel模板文件在内存中创建一个Excel表格对象
@@ -194,10 +190,10 @@ public class ReportController {
             row.getCell(7).setCellValue(thisMonthVisitsNumber);//本月到诊数
 
             int rowNum = 12;
-            for(Map map : hotSetmeal){//热门套餐
-                String name = (String) map.get("name");
-                Long setmeal_count = (Long) map.get("setmeal_count");
-                BigDecimal proportion = (BigDecimal) map.get("proportion");
+            for (HotSetMeal hotSetMeal : hotSetmeal) {
+                String name = hotSetMeal.getName();
+                Long setmeal_count = hotSetMeal.getSetmeal_count();
+                BigDecimal proportion = hotSetMeal.getProportion();
                 row = sheet.getRow(rowNum ++);
                 row.getCell(4).setCellValue(name);//套餐名称
                 row.getCell(5).setCellValue(setmeal_count);//预约数量
@@ -208,11 +204,41 @@ public class ReportController {
             response.setContentType("application/vnd.ms-excel");//代表的是Excel文件类型
             response.setHeader("content-Disposition", "attachment;filename=report.xlsx");//指定以附件形式进行下载
             excel.write(out);
-
             out.flush();
             out.close();
             excel.close();
-
+            return null;
+        }catch (Exception e){
+            return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
+        }
+    }
+    @RequestMapping("/exportPdfBusinessReport")
+    public Result exportPdfBusinessReport(HttpServletRequest request, HttpServletResponse response){
+        try{
+            Report _result = reportService.getBusinnessReport();
+            //取出返回结果数据，准备将报表数据写入到Excel文件中
+            List<HotSetMeal> _hotSetmeal = _result.getHotSetmeal();
+            //转化为map集合
+            Map<String, Object> result = JSON.parseObject(JSON.toJSONString(_result), new TypeReference<Map<String, Object>>() {});
+            List<Map<String,Object>> hotSetmealList = new ArrayList<>();
+            for (HotSetMeal hotSetMeal : _hotSetmeal) {
+                Map<String, Object> hotSetmealMap = JSON.parseObject(JSON.toJSONString(hotSetMeal), new TypeReference<Map<String, Object>>() {});
+                hotSetmealList.add(hotSetmealMap);
+            }
+                //获取pdf模板的绝对路径
+            String pdfTempletPath= request.getSession().getServletContext().getRealPath("template")+ File.separator+"report_template_pdf.jrxml";
+            //编译模板文件后生成的编译文件路径
+            String jasperPath = request.getSession().getServletContext().getRealPath("template")+ File.separator+"report_pdf.jasper";
+            //编译
+            JasperCompileManager.compileReportToFile(pdfTempletPath,jasperPath);
+            //填充数据，获取一个jasperPrint对象
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperPath, result, new JRBeanCollectionDataSource(hotSetmealList));
+            //使用输出流进行表格下载,基于浏览器作为客户端下载
+            OutputStream out = response.getOutputStream();
+            response.setContentType("application/pdf");//代表的是Excel文件类型
+            response.setHeader("content-Disposition", "attachment;filename=report.pdf");//指定以附件形式进行下载
+            //将文件写入输出流带到前端
+            JasperExportManager.exportReportToPdfStream(jasperPrint,out);
             return null;
         }catch (Exception e){
             return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);

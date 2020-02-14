@@ -210,7 +210,7 @@ public class SetMealServiceImpl implements SetMealService {
             //创建模板类
             Template template = configuration.getTemplate(templateName);
             //创建目标文件输出流
-            writerStream = new FileWriter(new File(outputPath+"/"+targetName));
+            writerStream = new FileWriter(new File(outputPath+File.separator+targetName));
            //填入数据生成页面
             template.process(dataMap,writerStream);
         } catch (Exception e) {
