@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fontFamilies>
     <fontFamily name="华文宋体">
-        <normal>stsong/stsong.ttf</normal>
-        <bold>stsong/stsong.ttf</bold>
-        <italic>stsong/stsong.ttf</italic>
-        <boldItalic>stsong/stsong.ttf</boldItalic>
-        <pdfEncoding>stsong/stsong.ttf</pdfEncoding>
+        <normal>stsong/STSONG.TTF</normal>
+        <bold>stsong/STSONG.TTF</bold>
+        <italic>stsong/STSONG.TTF</italic>
+        <boldItalic>stsong/STSONG.TTF</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
         <exportFonts>
             <export key="net.sf.jasperreports.html">'华文宋体', Arial, Helvetica, sans-serif</export>

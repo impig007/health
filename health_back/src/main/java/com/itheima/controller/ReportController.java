@@ -213,7 +213,7 @@ public class ReportController {
         }
     }
     @RequestMapping("/exportPdfBusinessReport")
-    public Result exportPdfBusinessReport(HttpServletRequest request, HttpServletResponse response){
+    public void exportPdfBusinessReport(HttpServletRequest request, HttpServletResponse response){
         try{
             Report _result = reportService.getBusinnessReport();
             //取出返回结果数据，准备将报表数据写入到Excel文件中
@@ -223,25 +223,30 @@ public class ReportController {
             List<Map<String,Object>> hotSetmealList = new ArrayList<>();
             for (HotSetMeal hotSetMeal : _hotSetmeal) {
                 Map<String, Object> hotSetmealMap = JSON.parseObject(JSON.toJSONString(hotSetMeal), new TypeReference<Map<String, Object>>() {});
+                //将integer转化为long类型，（记住大的装小的直接强转，）
+                Integer _setmeal_count = (Integer) hotSetmealMap.get("setmeal_count");
+                long setmeal_count = _setmeal_count.longValue();
+                hotSetmealMap.put("setmeal_count",setmeal_count);
                 hotSetmealList.add(hotSetmealMap);
             }
+
                 //获取pdf模板的绝对路径
-            String pdfTempletPath= request.getSession().getServletContext().getRealPath("template")+ File.separator+"report_template_pdf.jrxml";
+            String pdfTempletPath= request.getSession().getServletContext().getRealPath("/template")+ File.separator+"report_template_pdf.jrxml";
             //编译模板文件后生成的编译文件路径
-            String jasperPath = request.getSession().getServletContext().getRealPath("template")+ File.separator+"report_pdf.jasper";
+            String jasperPath = request.getSession().getServletContext().getRealPath("/template")+ File.separator+"report_pdf.jasper";
             //编译
             JasperCompileManager.compileReportToFile(pdfTempletPath,jasperPath);
             //填充数据，获取一个jasperPrint对象
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperPath, result, new JRBeanCollectionDataSource(hotSetmealList));
             //使用输出流进行表格下载,基于浏览器作为客户端下载
             OutputStream out = response.getOutputStream();
-            response.setContentType("application/pdf");//代表的是Excel文件类型
+            response.setContentType("application/pdf");
             response.setHeader("content-Disposition", "attachment;filename=report.pdf");//指定以附件形式进行下载
             //将文件写入输出流带到前端
             JasperExportManager.exportReportToPdfStream(jasperPrint,out);
-            return null;
         }catch (Exception e){
-            return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
+            e.printStackTrace();
+
         }
     }
 }

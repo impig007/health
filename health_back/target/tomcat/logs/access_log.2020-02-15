@@ -1,0 +1,14 @@
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:08 +0800] "GET /pages/main.html HTTP/1.1" 302 - http-bio-82-exec-2 334
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:08 +0800] "GET /pages/main.html HTTP/1.1" 302 - http-bio-82-exec-1 1129
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:08 +0800] "GET /login.html HTTP/1.1" 304 - http-bio-82-exec-4 70
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:09 +0800] "GET /login.html HTTP/1.1" 304 - http-bio-82-exec-5 8
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:23 +0800] "POST /login.do HTTP/1.1" 302 - http-bio-82-exec-7 7885
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:23 +0800] "GET /pages/main.html HTTP/1.1" 200 8731 http-bio-82-exec-8 71
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:24 +0800] "GET /pages/ordersetting.html HTTP/1.1" 200 16880 http-bio-82-exec-9 73
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:24 +0800] "GET /pages/ordersetting.html HTTP/1.1" 200 16880 http-bio-82-exec-10 17
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:25 +0800] "GET /user/getUserName.do HTTP/1.1" 200 77 http-bio-82-exec-2 1192
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:25 +0800] "POST /ordersetting/findByYearAndMonth.do?date=2020-2 HTTP/1.1" 200 1270 http-bio-82-exec-10 905
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:27 +0800] "GET /pages/report_business.html HTTP/1.1" 200 5993 http-bio-82-exec-4 39
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:48:27 +0800] "GET /report/getBusinessReportData.do HTTP/1.1" 200 698 http-bio-82-exec-4 253
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:49:10 +0800] "GET /report/exportPdfBusinessReport.do HTTP/1.1" 200 51305 http-bio-82-exec-6 41880
+0:0:0:0:0:0:0:1 - - [15/Feb/2020:18:55:29 +0800] "GET /logout.do HTTP/1.1" 302 - http-bio-82-exec-8 17
