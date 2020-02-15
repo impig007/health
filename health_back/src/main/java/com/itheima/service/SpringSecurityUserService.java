@@ -47,7 +47,7 @@ public class SpringSecurityUserService implements UserDetailsService {
                 list.add(new SimpleGrantedAuthority(permission.getKeyword()));
             }
         }
-        //用户安全认证
+        //用户安全认证，比对密码这一环节框架为我们做了
         org.springframework.security.core.userdetails.User securityUser = new org.springframework.security.core.userdetails.User(username,user.getPassword(),list);
         return securityUser;
     }

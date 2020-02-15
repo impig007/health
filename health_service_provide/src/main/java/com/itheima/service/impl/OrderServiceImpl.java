@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService{
         String idCard = (String) map.get("idCard");
         String sex = (String) map.get("sex");
         String orderType = (String) map.get("orderType");
-        //判断用户预约那一天有没有进行过预约设置（如果有预约过，预约设置表中应该有记录）
+        //判断用户预约那一天有没有进行过预约设置（预约设置表中应该有记录）
         OrderSetting orderSetting = orderSettingMapper.findByOrderDate(orderDate);
         if (orderSetting==null){
             //没有进行过设置
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService{
             //预约以满，无法预约
             return new Result(false,MessageConstant.ORDER_FULL);
         }
-        //预约未满，判断用户是否存在重复预约(同一用户在同一天预约了同一个套餐叫做重复预约)
+        //预约未满，判断用户是否存在重复预约
         //先判断用户是否存在
         Member member = memberMapper.findByTelephone(telephone);
         if (member==null){
@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService{
             member.setRegTime(new Date());
             memberMapper.add(member);
         }
-        //是会员
+        //是会员,判断是否重复预约，(同一用户在同一天预约了同一个套餐叫做重复预约)
         List<Order> order = orderMapper.findByCondition(new Order(member.getId(),orderDate,Integer.parseInt(setmealId)));
         if (order!=null && order.size()>0){
             //重复预约

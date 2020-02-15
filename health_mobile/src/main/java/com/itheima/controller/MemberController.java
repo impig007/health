@@ -53,8 +53,9 @@ public class MemberController {
                 member.setPhoneNumber(telephone);
                 memberService.rigister(member);
             }
-            //是会员,将手机号存入cookie并返回到浏览器
+            //是会员,将手机号存入cookie并返回到浏览器,将用户存入cookie返回浏览器，下次客户发送请求就会将cookie带来，这样就可以区分用户，实现跟踪效果
             Cookie cookie = new Cookie("rigisted_telephone",telephone);
+            cookie.setPath("/");
             cookie.setMaxAge(60*60*24*30);
             response.addCookie(cookie);
             //将会员信息存入redis中,并设置有效时间为半个小时

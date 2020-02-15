@@ -11,7 +11,7 @@
     <!--配置协议和端口-->
     <dubbo:protocol name="dubbo" port="20882"/>
     <!--暴露接口实现-->
-    <!--注意这里-->
+    <!--注意这里dubbo 为我们将这些加了service的类上传到注册中心，这样其他订阅的包用了reference就可以注入-->
     <dubbo:annotation package="com.itheima.service.impl"/>
 
 </beans>

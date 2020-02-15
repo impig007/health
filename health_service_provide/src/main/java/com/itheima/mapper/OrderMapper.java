@@ -1,5 +1,6 @@
 package com.itheima.mapper;
 
+import com.itheima.pojo.HotSetMeal;
 import com.itheima.pojo.Order;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface OrderMapper {
     public Integer findOrderCountAfterDate(String date);
     public Integer findVisitsCountByDate(String date);
     public Integer findVisitsCountAfterDate(String date);
-    public List<Map> findHotSetmeal();
+    public List<HotSetMeal> findHotSetmeal();
 }
