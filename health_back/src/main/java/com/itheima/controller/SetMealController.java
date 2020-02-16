@@ -8,7 +8,6 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Setmeal;
 import com.itheima.service.SetMealService;
-import com.itheima.utils.JedisUtil;
 import com.itheima.utils.QiniuUtils;
 import com.itheima.utils.UuidUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class SetMealController {
             //一旦上传成功，将图片名称存入redis大集合中
             Jedis jedis = jedisPool.getResource();
             jedis.sadd(RedisConstant.SETMEAL_PIC_RESOURCES,fileName);
-            JedisUtil.close(jedis);
+            jedis.close();
             return new Result(true,MessageConstant.PIC_UPLOAD_SUCCESS, fileName);
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,6 +117,11 @@ public class SetMealController {
             e.printStackTrace();
             return null;
         }
+    }
+    @RequestMapping("/test")
+    public void test(){
+        String path = SetMealController.class.getResource("/").getPath();
+        System.out.println(path);
     }
 
 }

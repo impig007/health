@@ -230,7 +230,7 @@ public class ReportController {
                 hotSetmealList.add(hotSetmealMap);
             }
 
-                //获取pdf模板的绝对路径
+            //获取pdf模板的绝对路径
             String pdfTempletPath= request.getSession().getServletContext().getRealPath("/template")+ File.separator+"report_template_pdf.jrxml";
             //编译模板文件后生成的编译文件路径
             String jasperPath = request.getSession().getServletContext().getRealPath("/template")+ File.separator+"report_pdf.jasper";

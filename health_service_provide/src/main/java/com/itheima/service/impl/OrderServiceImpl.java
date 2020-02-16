@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService{
             return new Result(false,MessageConstant.HAS_ORDERED);
         }
         //非重复预约
-        //增加订单order
+        //增加订单order,这里可以获取增加的id
         Order addorder = new Order();
         addorder.setOrderDate(orderDate);
         addorder.setOrderType(orderType);
@@ -89,6 +89,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Map findById(Integer id) throws Exception {
-        return orderMapper.findById4Detail(id);
+        Map map = orderMapper.findById4Detail(id);
+        return map;
     }
 }

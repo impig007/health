@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+        <!--mvc注解驱动-->
+        <mvc:annotation-driven>
+                <mvc:message-converters register-defaults="true">
+                        <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                                <property name="supportedMediaTypes" value="application/json"/>
+                                <property name="features">
+                                        <list>
+                                                <value>WriteMapNullValue</value>
+                                                <value>WriteDateUseDateFormat</value>
+                                        </list>
+                                </property>
+                        </bean>
+                </mvc:message-converters>
+        </mvc:annotation-driven>
+        <!--dubbo 相关配置-->
+        <dubbo:application name="health_back"/>
+        <!--指定注册url-->
+        <dubbo:registry address="zookeeper://localhost:2181"/>
+        <!--指定订阅的包,注意这里扫描过后，dubbo为我们将包中加了@Componet..添加进spring容器，所以无需配置组件扫描了-->
+        <dubbo:annotation package="com.itheima"/>
+        <!--注册和订阅是否同步-->
+        <dubbo:consumer timeout="60000" check="false"/>
+
+        <!--文件上传组件-->
+        <bean id="multipartResolver"
+              class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+                <property name="maxUploadSize" value="104857600" />
+                <property name="maxInMemorySize" value="4096" />
+                <property name="defaultEncoding" value="UTF-8"/>
+        </bean>
+
+        <!--引入redis配置文件-->
+        <import resource="classpath:spring-redis.xml"/>
+        <!--引入安全认证框架配置-->
+        <import resource="classpath:spring-security.xml"/>
+</beans>

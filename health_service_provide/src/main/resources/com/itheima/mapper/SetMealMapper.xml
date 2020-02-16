@@ -54,6 +54,10 @@
     <select id="countById" parameterType="int" resultType="long">
         select count(*) from t_setmeal_checkgroup where setmeal_id=#{id}
     </select>
+    <!--统计套餐是否有关联套餐-->
+    <select id="countOrderById" parameterType="int" resultType="long">
+        select count(id) from t_order  where setmeal_id=#{id}
+    </select>
 
     <delete id="delById" parameterType="int">
         delete from t_setmeal where id=#{id}

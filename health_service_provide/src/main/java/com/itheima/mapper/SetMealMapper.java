@@ -31,4 +31,6 @@ public interface SetMealMapper {
     List<Integer> findsetMeal4Groups(Integer id)throws Exception;
 
     List<Map<String, Object>> findSetMealCount()throws Exception;
+
+    long countOrderById(Integer id)throws Exception;
 }

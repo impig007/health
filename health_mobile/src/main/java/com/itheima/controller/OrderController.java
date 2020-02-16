@@ -67,13 +67,13 @@ public class OrderController {
         return result;
     }
     @RequestMapping("/findById")
-    public Map findById(Integer id){
-        Map map = null;
-        try {
-            map = orderService.findById(id);
-        } catch (Exception e) {
+    public Result findById(Integer id){
+        try{
+            Map map = orderService.findById(id);
+            return new Result(true,MessageConstant.QUERY_ORDER_SUCCESS,map);
+        }catch (Exception e){
             e.printStackTrace();
+            return new Result(false,MessageConstant.QUERY_ORDER_FAIL);
         }
-        return map;
     }
 }

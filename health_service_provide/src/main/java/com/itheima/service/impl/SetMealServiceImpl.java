@@ -14,7 +14,6 @@ import com.itheima.pojo.Setmeal;
 import com.itheima.service.SetMealService;
 
 
-import com.itheima.utils.JedisUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +84,8 @@ public class SetMealServiceImpl implements SetMealService {
         //将fileName存入redis小集合
         Jedis jedis = jedisPool.getResource();
         jedis.sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,fileName);
-        JedisUtil.close(jedis);
-        //增删改套餐数据库数据都会改变导致页面数据都会发生改变需要更新页面数据(这里就是重新生成页面了)
+        jedis.close();
+        //增改套餐数据库数据都会改变导致页面数据都会发生改变,需要更新页面数据
         generateStaticMoblieHtml();
     }
 
@@ -104,8 +103,9 @@ public class SetMealServiceImpl implements SetMealService {
     @Override
     public Result delById(Integer id) throws Exception {
         //执行删除命令之前判断是否有关联表
-        long count = setMealMapper.countById(id);
-        if (count>0){
+        long relate2Group = setMealMapper.countById(id);
+        long relate2Order = setMealMapper.countOrderById(id);
+        if (relate2Group>0 || relate2Order>0){
             //已经关联不可删除
             return new Result(false, MessageConstant.DEL_SETMEAL_FAIL);
         }
@@ -116,9 +116,9 @@ public class SetMealServiceImpl implements SetMealService {
         //将小集合中的图片删除
         Jedis jedis = jedisPool.getResource();
         jedis.srem(RedisConstant.SETMEAL_PIC_DB_RESOURCES,setmeal.getImg());
-        JedisUtil.close(jedis);
-        //重新生成静态页面
-        generateStaticMoblieHtml();
+        //将删除的id存入redis，为了后期的定时删除freemarker生成的界面,redis 必须要存储字符串
+        jedis.sadd(RedisConstant.DEL_SETMEAL_ID,String.valueOf(id));
+        jedis.close();
         return  new Result(true,MessageConstant.DEL_SETMEAL_SUCCESS);
     }
 
@@ -146,7 +146,7 @@ public class SetMealServiceImpl implements SetMealService {
         jedis.srem(RedisConstant.SETMEAL_PIC_DB_RESOURCES,oldeFileName);
         //插入新图片名称
         jedis.sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,setmeal.getImg());
-        JedisUtil.close(jedis);
+        jedis.close();
         //重新生成静态页面
         generateStaticMoblieHtml();
     }
