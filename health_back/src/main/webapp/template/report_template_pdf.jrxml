@@ -2,17 +2,17 @@
 <!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_template_pdf" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="68eda7b6-7f3a-4c5f-b0a4-eae5d04d355f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<parameter name="reportDate" class="java.lang.String"/>
-	<parameter name="todayNewMember" class="java.lang.Integer"/>
-	<parameter name="totalMember" class="java.lang.Integer"/>
-	<parameter name="thisWeekNewMember" class="java.lang.Integer"/>
-	<parameter name="thisMonthNewMember" class="java.lang.Integer"/>
-	<parameter name="todayOrderNumber" class="java.lang.Integer"/>
-	<parameter name="todayVisitsNumber" class="java.lang.Integer"/>
-	<parameter name="thisWeekOrderNumber" class="java.lang.Integer"/>
-	<parameter name="thisWeekVisitsNumber" class="java.lang.Integer"/>
-	<parameter name="thisMonthOrderNumber" class="java.lang.Integer"/>
-	<parameter name="thisMonthVisitsNumber" class="java.lang.Integer"/>
+	<parameter name="report.reportDate" class="java.lang.String"/>
+	<parameter name="report.todayNewMember" class="java.lang.Integer"/>
+	<parameter name="report.totalMember" class="java.lang.Integer"/>
+	<parameter name="report.thisWeekNewMember" class="java.lang.Integer"/>
+	<parameter name="report.thisMonthNewMember" class="java.lang.Integer"/>
+	<parameter name="report.todayOrderNumber" class="java.lang.Integer"/>
+	<parameter name="report.todayVisitsNumber" class="java.lang.Integer"/>
+	<parameter name="report.thisWeekOrderNumber" class="java.lang.Integer"/>
+	<parameter name="report.thisWeekVisitsNumber" class="java.lang.Integer"/>
+	<parameter name="report.thisMonthOrderNumber" class="java.lang.Integer"/>
+	<parameter name="report.thisMonthVisitsNumber" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -46,7 +46,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{reportDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.reportDate}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="158" height="32" uuid="efdedd71-73f8-410f-90a2-8f29f67b09fd"/>
@@ -92,7 +92,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{todayNewMember}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.todayNewMember}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="279" y="41" width="149" height="43" uuid="bdc25c4b-027f-481d-8b5c-9b5bbbef18ad"/>
@@ -112,7 +112,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{totalMember}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.totalMember}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="84" width="139" height="46" uuid="7300f294-5cc4-4faf-9bef-1d822dcc5094"/>
@@ -133,7 +133,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{thisWeekNewMember}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.thisWeekNewMember}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="279" y="84" width="149" height="46" uuid="051cb50c-bddf-4d54-9cd5-532191a829fe"/>
@@ -153,7 +153,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{thisMonthNewMember}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.thisMonthNewMember}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="130" width="555" height="45" uuid="37d71a4e-fdce-4fde-875b-1c0ef8b77917"/>
@@ -184,7 +184,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{todayOrderNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.todayOrderNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="270" y="175" width="150" height="38" uuid="f1ab55c7-286f-4d79-9c7a-0f27a07ed245"/>
@@ -209,7 +209,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{todayVisitsNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.todayVisitsNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="213" width="130" height="32" uuid="5ee89965-8eaf-404a-b029-7b0a0030fb81"/>
@@ -230,7 +230,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{thisWeekOrderNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.thisWeekOrderNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="270" y="213" width="150" height="32" uuid="1dc7776f-e198-45ec-8606-332154c065af"/>
@@ -251,7 +251,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{thisWeekVisitsNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.thisWeekVisitsNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="245" width="130" height="35" uuid="bd5fd8cd-0ff6-4de2-99a2-9377187fd477"/>
@@ -272,7 +272,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{thisMonthOrderNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.thisMonthOrderNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="270" y="245" width="150" height="35" uuid="4990de7a-f9b2-42e2-a659-d4bd5b24175d"/>
@@ -293,7 +293,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="华文宋体"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{thisMonthVisitsNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{report.thisMonthVisitsNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="280" width="555" height="40" uuid="a1f8c352-a4d4-4e62-9a63-7556b61e4c7d"/>
